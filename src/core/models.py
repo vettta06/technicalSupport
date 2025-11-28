@@ -1,0 +1,65 @@
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    """Модель пользователя."""
+    ROLE_CHOICES = [
+        ('respondent', 'Респондент'),
+        ('admin', 'Администратор сбора данных'),
+        ('provider', 'Поставщик'),
+    ]
+    role = models.CharField(
+        max_length=20, choices=ROLE_CHOICES, default='respondent'
+    )
+
+
+class Ticket(models.Model):
+    """Модель заявки."""
+
+    STATUS_CHOICES = [
+        ('new', 'Новая'),
+        ('in_progress', 'В работе'),
+        ('resolved', 'Решена'),
+        ('closed', 'Закрыта'),
+    ]
+    SUPPORT_LINE_CHOICES = [
+        (1, 'Первая линия'),
+        (2, 'Вторая линия'),
+        (3, 'Третья линия'),
+    ]
+
+    subject = models.CharField(max_length=255)
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='new'
+    )
+    description = models.TextField(blank=True)
+    support_line = models.IntegerField(choices=SUPPORT_LINE_CHOICES, default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class DataSubmission(models.Model):
+    """Модель для хранения данных заявки."""
+    CHANNEL_CHOICES = [
+        (1, 'API'),
+        (2, 'Онлайн-ввод'),
+        (3, 'Оффлайн-ввод'),
+    ]
+    STATUS_CHOICES = [
+        ('success', 'Успешно'),
+        ('error', 'Ошибка'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    channel = models.IntegerField(choices=CHANNEL_CHOICES)
+    data = models.JSONField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+
+class Notification(models.Model):
+    """Модель для управления уведомлениями."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)

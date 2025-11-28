@@ -1,0 +1,19 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# Environment
+.env 
+.venv/
+venv/
+
+# IDE 
+.vscode/
+.idea/
+
+# Docker
+docker-compose.override.yml
+*.log
