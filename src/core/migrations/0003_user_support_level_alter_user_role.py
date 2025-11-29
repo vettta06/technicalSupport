@@ -6,18 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0002_ticket_update_at_alter_ticket_created_at'),
+        ("core", "0002_ticket_update_at_alter_ticket_created_at"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='support_level',
-            field=models.PositiveSmallIntegerField(blank=True, choices=[(1, 'L1'), (2, 'L2'), (3, 'L3')], null=True, verbose_name='Уровень поддержки'),
+            model_name="user",
+            name="support_level",
+            field=models.PositiveSmallIntegerField(
+                blank=True,
+                choices=[(1, "L1"), (2, "L2"), (3, "L3")],
+                null=True,
+                verbose_name="Уровень поддержки",
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='role',
-            field=models.CharField(choices=[('respondent', 'Респондент'), ('admin', 'Администратор данных'), ('provider', 'Поставщик'), ('support', 'Агент поддержки')], default='respondent', max_length=20),
+            model_name="user",
+            name="role",
+            field=models.CharField(
+                choices=[
+                    ("respondent", "Респондент"),
+                    ("admin", "Администратор данных"),
+                    ("provider", "Поставщик"),
+                    ("support", "Агент поддержки"),
+                ],
+                default="respondent",
+                max_length=20,
+            ),
         ),
     ]

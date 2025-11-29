@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 
 {% block title %}Заявка #{{ ticket.id }} | Техподдержка{% endblock %}
@@ -22,10 +23,21 @@
         <p>*(пока не реализовано)*</p>
 
         <div class="mt-4">
-            {% if user.support_level == 1 and ticket.status != 'escalated' %}
-            <a href="{% url 'ticket_escalate' ticket.id %}" class="btn btn-warning">Эскалировать на L2/L3</a>
+            {% if user.role == 'support' %}
+                {% if user.support_level == 1 and ticket.support_line == 1 and ticket.status not in 'resolved,escalated' %}
+                    <a href="{% url 'ticket_escalate' ticket.id %}" class="btn btn-warning me-2">Эскалировать на L2/L3</a>
+                    <form method="post" action="{% url 'ticket_resolve' ticket.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Проблема решена</button>
+                    </form>
+                {% elif user.support_level == 2 and ticket.support_line == 2 and ticket.status == 'escalated' %}
+                    <form method="post" action="{% url 'ticket_resolve' ticket.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Проблема решена</button>
+                    </form>
+                {% endif %}
             {% endif %}
-            <a href="{% url 'ticket_list' %}" class="btn btn-secondary">Назад к списку</a>
+            <a href="{% url 'ticket_list' %}" class="btn btn-secondary ms-2">Назад к списку</a>
         </div>
     </div>
 </div>

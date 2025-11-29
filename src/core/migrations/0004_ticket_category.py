@@ -6,13 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_user_support_level_alter_user_role'),
+        ("core", "0003_user_support_level_alter_user_role"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ticket',
-            name='category',
-            field=models.CharField(choices=[('schedule', 'Изменение расписания'), ('api_issue', 'Проблема с API'), ('notification', 'Не понимаю уведомление'), ('system_performance', 'Система работает медленно'), ('response_time', 'Медленный ответ техподдержки'), ('other', 'Другое')], default='other', max_length=20, verbose_name='Категория'),
+            model_name="ticket",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("schedule", "Изменение расписания"),
+                    ("api_issue", "Проблема с API"),
+                    ("notification", "Не понимаю уведомление"),
+                    ("system_performance", "Система работает медленно"),
+                    ("response_time", "Медленный ответ техподдержки"),
+                    ("other", "Другое"),
+                ],
+                default="other",
+                max_length=20,
+                verbose_name="Категория",
+            ),
         ),
     ]
