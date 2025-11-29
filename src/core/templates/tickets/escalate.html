@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Эскалировать заявку #{{ ticket.id }} | Техподдержка{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h3>Эскалировать заявку #{{ ticket.id }}</h3>
+        <p><strong>Тема:</strong> {{ ticket.subject }}</p>
+        <p><strong>Текущий уровень:</strong> L{{ ticket.support_line }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="to_level" class="form-label">Перенести на уровень</label>
+                <select name="to_level" id="to_level" class="form-select" required>
+                    <option value="">Выберите уровень</option>
+                    <option value="2">L2 — Разработчик / Аналитик</option>
+                    <option value="3">L3 — Технический менеджер / Менеджер проекта</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-danger">Подтвердить эскалацию</button>
+            <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-secondary ms-2">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

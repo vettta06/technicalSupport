@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Мои заявки | Техподдержка{% endblock %}
+
+{% block content %}
+<h3>Заявки для L{{ user.support_level }}</h3>
+
+{% if tickets %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Тема</th>
+            <th>Автор</th>
+            <th>Статус</th>
+            <th>Дата</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.subject }}</td>
+            <td>{{ ticket.user.username }}</td>
+            <td>{{ ticket.get_status_display }}</td>
+            <td>{{ ticket.created_at|date:"d.m.Y H:i" }}</td>
+            <td>
+                <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-sm btn-info">Просмотр</a>
+                {% if user.support_level == 1 and ticket.status != 'escalated' %}
+                <a href="{% url 'ticket_escalate' ticket.id %}" class="btn btn-sm btn-warning">Эскалировать</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert-info">Нет заявок для обработки.</div>
+{% endif %}
+
+<a href="{% url 'dashboard' %}" class="btn btn-secondary">Назад на главную</a>
+{% endblock %}

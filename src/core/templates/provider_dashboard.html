@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-
+{% block title %}Панель поставщика{% endblock %}
 {% block content %}
 <h1>Панель поставщика</h1>
 <p>Здесь можно проверять статус своих данных.</p>
-
 <ul>
-    <li><a href="{% url 'respondent' %}">Страница респондента</a></li>
-    <li><a href="{% url 'admin' %}">Админка</a></li>
+    <li><a href="{% url 'ticket_create' %}">Создать заявку</a></li>
+    <li><a href="{% url 'dashboard' %}">Назад на главную</a></li>
 </ul>
 {% endblock %}

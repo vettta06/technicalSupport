@@ -17,6 +17,6 @@ def role_required(allowed_roles):
                 return view_func(request, *args, **kwargs)
             else:
                 messages.error(request, "У вас нет доступа к этой странице.")
-                return redirect('dashboard') 
+                return redirect('dashboard')
         return _wrapped_view
     return decorator

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Создать заявку | Техподдержка{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h3>Создать новую заявку</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="subject" class="form-label">Тема</label>
+                <input type="text" name="subject" id="subject" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Категория</label>
+                <select name="category" id="category" class="form-select" required>
+                    <option value="">Выберите категорию</option>
+                    <option value="schedule">Изменение расписания</option>
+                    <option value="api_issue">Проблема с API</option>
+                    <option value="notification">Не понимаю уведомление</option>
+                    <option value="system_performance">Система работает медленно</option>
+                    <option value="response_time">Медленный ответ техподдержки</option>
+                    <option value="other">Другое</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание проблемы</label>
+                <textarea name="description" id="description" class="form-control" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить заявку</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary ms-2">Назад</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

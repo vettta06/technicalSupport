@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Заявка #{{ ticket.id }} | Техподдержка{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h3>Заявка #{{ ticket.id }} — {{ ticket.subject }}</h3>
+        <p><strong>Автор:</strong> {{ ticket.user.username }} ({{ ticket.user.get_role_display }})</p>
+        <p><strong>Статус:</strong> {{ ticket.get_status_display }}</p>
+        <p><strong>Категория:</strong> {{ ticket.get_category_display }}</p>
+        <p><strong>Линия поддержки:</strong> L{{ ticket.support_line }}</p>
+        <p><strong>Создана:</strong> {{ ticket.created_at|date:"d.m.Y H:i" }}</p>
+        <p><strong>Обновлена:</strong> {{ ticket.updated_at|date:"d.m.Y H:i" }}</p>
+
+        <hr>
+        <h5>Описание:</h5>
+        <p>{{ ticket.description }}</p>
+
+        <hr>
+        <h5>История изменений:</h5>
+        <p>*(пока не реализовано)*</p>
+
+        <div class="mt-4">
+            {% if user.support_level == 1 and ticket.status != 'escalated' %}
+            <a href="{% url 'ticket_escalate' ticket.id %}" class="btn btn-warning">Эскалировать на L2/L3</a>
+            {% endif %}
+            <a href="{% url 'ticket_list' %}" class="btn btn-secondary">Назад к списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

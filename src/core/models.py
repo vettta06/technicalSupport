@@ -1,17 +1,30 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+ROLE_CHOICES = (
+    ('respondent', 'Респондент'),
+    ('admin', 'Администратор данных'),
+    ('provider', 'Поставщик'),
+    ('support', 'Агент поддержки'),
+)
+
+SUPPORT_LEVEL_CHOICES = (
+    (1, 'L1'),
+    (2, 'L2'),
+    (3, 'L3'),
+)
+
 
 class User(AbstractUser):
     """Модель пользователя."""
-    ROLE_CHOICES = [
-        ('respondent', 'Респондент'),
-        ('admin', 'Администратор сбора данных'),
-        ('provider', 'Поставщик'),
-    ]
     role = models.CharField(
         max_length=20, choices=ROLE_CHOICES, default='respondent'
     )
+    support_level = models.PositiveSmallIntegerField(
+        'Уровень поддержки', choices=SUPPORT_LEVEL_CHOICES, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.username} ({self.get_role_display()})"
 
 
 class Ticket(models.Model):
@@ -29,6 +42,15 @@ class Ticket(models.Model):
         (3, 'Третья линия'),
     ]
 
+    CATEGORY_CHOICES = (
+        ('schedule', 'Изменение расписания'),
+        ('api_issue', 'Проблема с API'),
+        ('notification', 'Не понимаю уведомление'),
+        ('system_performance', 'Система работает медленно'),
+        ('response_time', 'Медленный ответ техподдержки'),
+        ('other', 'Другое'),
+    )
+
     subject = models.CharField(max_length=255)
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='new'
@@ -38,9 +60,10 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField('Создана', auto_now_add=True)
     update_at = models.DateTimeField('Обновлена', auto_now=True)
-
+    category = models.CharField('Категория', max_length=20, choices=CATEGORY_CHOICES, default='other')
+    
     def __str__(self):
-        return f"#{self.id} — {self.subject} ({self.get_support_line_display()})" 
+        return f"#{self.id} — {self.subject} ({self.get_support_line_display()})"
 
 
 class DataSubmission(models.Model):

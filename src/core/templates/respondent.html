@@ -1,5 +1,13 @@
 {% extends "base.html" %}
+
+{% block title %}Страница респондента | Техподдержка{% endblock %}
+
 {% block content %}
-<h2>Только для респондентов</h2>
-<p>Если ты видишь это — у тебя роль "респондент".</p>
+<h2>Добро пожаловать, {{ user.username }}!</h2>
+<p>Вы — респондент. Здесь вы можете:</p>
+<ul>
+    <li><a href="{% url 'ticket_create' %}">Создать заявку</a></li>
+    <li><a href="{% url 'submit_data' %}">Отправить данные</a></li>
+    <li><a href="{% url 'dashboard' %}">Вернуться на главную</a></li>
+</ul>
 {% endblock %}
