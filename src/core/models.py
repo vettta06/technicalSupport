@@ -35,8 +35,12 @@ class Ticket(models.Model):
     )
     description = models.TextField(blank=True)
     support_line = models.IntegerField(choices=SUPPORT_LINE_CHOICES, default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField('Создана', auto_now_add=True)
+    update_at = models.DateTimeField('Обновлена', auto_now=True)
+
+    def __str__(self):
+        return f"#{self.id} — {self.subject} ({self.get_support_line_display()})" 
 
 
 class DataSubmission(models.Model):

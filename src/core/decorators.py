@@ -1,6 +1,7 @@
 from functools import wraps
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
+from django.contrib import messages
 
 
 def role_required(allowed_roles):
@@ -15,6 +16,7 @@ def role_required(allowed_roles):
                 request.user.role in allowed_roles):
                 return view_func(request, *args, **kwargs)
             else:
-                raise PermissionDenied  # 403
+                messages.error(request, "У вас нет доступа к этой странице.")
+                return redirect('dashboard') 
         return _wrapped_view
     return decorator

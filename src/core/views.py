@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .decorators import role_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView
 
 
 @login_required
@@ -15,9 +16,13 @@ def submit_data(request):
 
 @role_required(['admin'])
 def admin_dashboard(request):
-    return render(request, 'admin.html')
+    return render(request, 'admin_dashboard.html')
 
 
 @role_required(['provider'])
 def provider_dashboard(request):
     return render(request, 'provider_dashboard.html')
+
+
+class CustomLogoutView(LogoutView):
+    http_method_names = ['get', 'post', 'head', 'options']

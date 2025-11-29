@@ -1,13 +1,22 @@
-{% extends "base.html" %} {% block content %}
-<h2>Главная панель</h2>
-<p>Ты вошёл как {{ user.username }}.</p>
-<ul>
-  <li><a href="{% url 'respondent' %}">Страница респондента</a></li>
-  <li><a href="{% url 'provider' %}">Страница постащика</a></li>
-  <li><a href="{% url 'admin_data' %}">Администратор данных</a></li>
-  <form method="post" action="{% url 'logout' %}">
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Главная панель</h2>
+  <p>Ты вошёл как {{ user.username }} (роль: {{ user.get_role_display }}).</p>
+
+  <ul>
+    {% if user.role == 'respondent' %}
+      <li><a href="{% url 'respondent' %}">Страница респондента</a></li>
+    {% endif %}
+    {% if user.role == 'provider' %}
+      <li><a href="{% url 'provider' %}">Страница поставщика</a></li>
+    {% endif %}
+    {% if user.role == 'admin' %}
+      <li><a href="{% url 'admin_data' %}">Администратор данных</a></li>
+    {% endif %}
+  </ul>
+  <form method="post" action="{% url 'logout' %}" style="display: inline;">
     {% csrf_token %}
     <button type="submit">Выйти</button>
   </form>
-  {% endblock %}
-</ul>
+{% endblock %}
