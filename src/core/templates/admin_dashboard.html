@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Панель администратора</h1>
+<p>Здесь можно просматривать все заявки и данные.</p>
+
+<ul>
+    <li><a href="{% url 'respondent' %}">Страница респондента</a></li>
+    <li><a href="{% url 'admin' %}">Обновить эту страницу</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+<h2>Главная панель</h2>
+<p>Ты вошёл как {{ user.username }}.</p>
+<ul>
+  <li><a href="{% url 'respondent' %}">Страница респондента</a></li>
+  <li><a href="{% url 'provider' %}">Страница постащика</a></li>
+  <li><a href="{% url 'admin_data' %}">Администратор данных</a></li>
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Выйти</button>
+  </form>
+  {% endblock %}
+</ul>

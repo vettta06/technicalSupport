@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Панель поставщика</h1>
+<p>Здесь можно проверять статус своих данных.</p>
+
+<ul>
+    <li><a href="{% url 'respondent' %}">Страница респондента</a></li>
+    <li><a href="{% url 'admin' %}">Админка</a></li>
+</ul>
+{% endblock %}
