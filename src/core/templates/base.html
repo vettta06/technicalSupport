@@ -6,12 +6,15 @@
     <title>{% block title %}Система технической поддержки{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tickets.css' %}">
 </head>
 <body>
     <!-- Шапка -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark glass-effect mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'dashboard' %}">Техподдержка</a>
+            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">Техподдержка</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -60,7 +63,7 @@
                                 <li>
                                     <form method="post" action="{% url 'logout' %}" style="margin:0;">
                                         {% csrf_token %}
-                                        <button type="submit" class="dropdown-item">Выйти</button>
+                                        <button type="submit" class="btn btn-logout btn-sm">Выйти</button>
                                     </form>
                                 </li>
                             </ul>
@@ -71,10 +74,6 @@
                         </li>
                     {% endif %}
                 </ul>
-            </div>
-        </div>
-    </nav>
-
     <!-- Основное содержимое -->
     <div class="container">
         {% if messages %}
@@ -89,5 +88,5 @@
     </div>
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
+  </body>
 </html>

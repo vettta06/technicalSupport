@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Администратор — Техподдержка{%
+endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2 class="text-center">Панель администратора данных</h2>
+    <div class="card bg-card p-4 mb-4">
+      <h5>Вы — <strong>Администратор сбора данных</strong></h5>
+      <p>Вы управляете:</p>
+      <ul>
+        <li>Сроками предоставления данных</li>
+        <li>Валидацией и полнотой данных</li>
+        <li>Рассылкой уведомлений респондентам</li>
+      </ul>
+      <p>
+        При проблемах с работой Системы — создайте заявку. Если проблема
+        системная (медленная работа, ошибки валидации), она может быть передана
+        L2 или L3.
+      </p>
+    </div>
 
-{% block content %}
-<h1>Панель администратора</h1>
-<p>Здесь можно просматривать все заявки и данные.</p>
-
-<ul>
-    <li><a href="{% url 'admin_data' %}">Обновить эту страницу</a></li>
-</ul>
+    <div class="d-grid gap-2">
+      <a href="{% url 'ticket_create' %}" class="btn btn-primary"
+        >Создать заявку</a
+      >
+      <a href="{% url 'dashboard' %}" class="btn btn-secondary">На главную</a>
+    </div>
+  </div>
+</div>
 {% endblock %}

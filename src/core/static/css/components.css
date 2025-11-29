@@ -1,0 +1,190 @@
+/* Buttons */
+.btn {
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5a3c7b;
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background-color: var(--accent);
+  border: none;
+  color: #121212;
+}
+
+.btn-success:hover {
+  background-color: #7ab723;
+  transform: translateY(-1px);
+}
+
+.btn-warning {
+  background-color: #ff9234;
+  border: none;
+  color: #121212;
+}
+
+.btn-warning:hover {
+  background-color: #ff7b1a;
+}
+
+.btn-danger {
+  background-color: #d94040;
+  border: none;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c13232;
+}
+
+/* Кнопка "Выйти" — особая стилизация */
+.btn-logout {
+  background-color: white;
+  color: #121212;
+  border: 1px solid #ddd;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn-logout:active {
+  background-color: var(--accent);
+  color: #121212;
+  border-color: var(--accent);
+}
+
+.btn-secondary {
+  background-color: #2a2a2a;
+  color: #d0d0d0;
+  border: 1px solid #444;
+}
+
+.btn-secondary:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Tables */
+.table {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+}
+
+.table thead th {
+  background-color: #2a2a2a;
+  font-weight: 600;
+  color: #ffffff;
+  border-bottom: 1px solid #444;
+  padding: 0.75rem 1rem;
+}
+
+.table tbody tr:hover {
+  background-color: #252525;
+}
+
+.table td, .table th {
+  border-color: #333;
+  padding: 0.75rem 1rem;
+}
+
+/* Forms */
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 1px solid #444;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(106, 76, 147, 0.2);
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5 {
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+h3 {
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+h5 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+/* Text & Links */
+a {
+  color: var(--primary);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+  font-size: 0.95rem;
+}
+
+a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+p, li {
+  color: #d0d0d0;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Utility spacing */
+.mt-4 { margin-top: 2rem !important; }
+.mb-3 { margin-bottom: 1rem !important; }
+.me-2 { margin-right: 0.75rem !important; }
+.ms-2 { margin-left: 0.75rem !important; }
+
+/* Добавим немного воздуха вокруг контента */
+.content-wrapper {
+  padding: 2rem;
+  background: #1a1a1a;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}

@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Респондент — Техподдержка{% endblock
+%} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2 class="text-center">Добро пожаловать, {{ user.username }}!</h2>
+    <div class="card bg-card p-4 mb-4">
+      <h5>Вы — <strong>Респондент</strong></h5>
+      <p>
+        Вы должны своевременно предоставлять данные в Систему через один из трёх
+        каналов:
+      </p>
+      <ul>
+        <li>API (для интеграции)</li>
+        <li>Онлайн-форма</li>
+        <li>Оффлайн-файл с последующей отправкой</li>
+      </ul>
+      <p>
+        При возникновении вопросов — создайте заявку. Она будет обработана
+        службой технической поддержки (L1).
+      </p>
+    </div>
 
-{% block title %}Страница респондента | Техподдержка{% endblock %}
-
-{% block content %}
-<h2>Добро пожаловать, {{ user.username }}!</h2>
-<p>Вы — респондент. Здесь вы можете:</p>
-<ul>
-    <li><a href="{% url 'ticket_create' %}">Создать заявку</a></li>
-    <li><a href="{% url 'submit_data' %}">Отправить данные</a></li>
-    <li><a href="{% url 'dashboard' %}">Вернуться на главную</a></li>
-</ul>
+    <div class="d-grid gap-2">
+      <a href="{% url 'ticket_create' %}" class="btn btn-primary"
+        >Создать заявку</a
+      >
+      <a href="{% url 'dashboard' %}" class="btn btn-secondary">На главную</a>
+    </div>
+  </div>
+</div>
 {% endblock %}

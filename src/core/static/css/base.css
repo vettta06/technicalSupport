@@ -1,0 +1,93 @@
+:root {
+  --primary: #6a4c93; /* фиолетовый */
+  --secondary: #2e2a47; /* темно-фиолетовый */
+  --accent: #8ac926; /* салатовый */
+  --light: #f0f0f0;
+  --dark: #121212;
+  --glass-bg: rgba(20, 20, 20, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --radius: 12px;
+  --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #0f0f0f;
+  color: #e0e0e0;
+  line-height: 1.6;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+.glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-top: 16px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+.nav-link {
+  color: #d0d0d0 !important;
+  transition: color 0.2s ease;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.nav-link:hover {
+  color: var(--accent) !important;
+}
+
+.dropdown-menu {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.dropdown-item {
+  color: #e0e0e0;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.dropdown-divider {
+  border-top: none;
+  margin: 0.25rem 0;
+}
+
+.alert {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: rgba(106, 76, 147, 0.2);
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 1rem 1.25rem;
+}
