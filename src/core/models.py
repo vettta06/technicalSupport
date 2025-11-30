@@ -83,14 +83,22 @@ class DataSubmission(models.Model):
         (3, "Оффлайн-ввод"),
     ]
     STATUS_CHOICES = [
-        ("success", "Успешно"),
-        ("error", "Ошибка"),
+        ("pending", "Ожидает валидации"),
+        ("accepted", "Принято"),
+        ("rejected", "Отклонено"),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    provider_name = models.CharField(
+        "Имя поставщика", max_length=255, blank=True)
     channel = models.IntegerField(choices=CHANNEL_CHOICES)
     data = models.JSONField()
+    file_upload = models.FileField(
+        upload_to="submissions/", null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
     submitted_at = models.DateTimeField(auto_now_add=True)
+    validated_at = models.DateTimeField(null=True, blank=True)
+    rejection_reason = models.TextField("Причина отклонения", blank=True)
 
 
 class Notification(models.Model):

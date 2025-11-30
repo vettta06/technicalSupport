@@ -23,4 +23,5 @@ urlpatterns = [
         views.ticket_resolve,
         name='ticket_resolve'
     ),
+    path('api/data/', views.api_data_submission, name='api_data_submission'),
 ]

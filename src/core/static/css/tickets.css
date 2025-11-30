@@ -365,3 +365,76 @@ body {
         max-width: 280px;
     }
 }
+
+/* --- Стили для формы создания заявки (минимальные) --- */
+
+.form-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn-submit {
+    flex: 1;
+    min-width: 160px;
+    max-width: 220px;
+    padding: 12px 16px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: #8ACF35;
+    color: white;
+    border: none;
+}
+
+.btn-submit:hover {
+    background-color: #F5B02E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(245, 176, 46, 0.3);
+}
+
+.btn-back {
+    flex: 1;
+    min-width: 160px;
+    max-width: 220px;
+    padding: 12px 16px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: #e0e0e0;
+    color: #1E0D3A;
+    border: 2px solid #cccccc;
+}
+
+.btn-back:hover {
+    background-color: #d0d0d0;
+    border-color: #aaaaaa;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 576px) {
+    .form-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-submit,
+    .btn-back {
+        width: 100%;
+        max-width: 280px;
+    }
+}

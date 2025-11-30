@@ -23,7 +23,7 @@
 }
 
 .figma-title {
-    color: #F5B02E;
+    color: #8ACF35;
     font-size: 2.2rem;
     margin: 0;
     text-transform: uppercase;
@@ -34,7 +34,7 @@
 }
 
 .figma-title:hover {
-    color: #8ACF35;
+    color: #F5B02E;
     text-shadow: 0 2px 6px rgba(138, 207, 53, 0.4);
 }
 
