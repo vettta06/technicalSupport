@@ -93,7 +93,7 @@ class DataSubmission(models.Model):
     provider_name = models.CharField(
         "Имя поставщика", max_length=255, blank=True)
     channel = models.IntegerField(choices=CHANNEL_CHOICES)
-    data = models.JSONField()
+    data = models.JSONField(blank=True, null=True)
     file_upload = models.FileField(
         upload_to="submissions/", null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
@@ -104,14 +104,17 @@ class DataSubmission(models.Model):
         "Ошибки валидации", default=dict, blank=True)
     
     def clean(self):
-        if not self.data:
-            raise ValidationError("Поле 'data' обязательно.")
-        if not isinstance(self.data, dict):
-            raise ValidationError("Поле 'data' должно быть объектом.")
+        if self.channel in [1, 2]:
+            if not self.data:
+                raise ValidationError("Поле 'data' обязательно.")
+            if not isinstance(self.data, dict):
+                raise ValidationError("Поле 'data' должно быть объектом.")
 
-        if "name" not in self.data:
-            self.validation_errors = {"name": "Обязательное поле"}
-        else:
+            if "name" not in self.data:
+                self.validation_errors = {"name": "Обязательное поле"}
+            else:
+                self.validation_errors = {}
+        elif self.channel == 3:
             self.validation_errors = {}
 
     def save(self, *args, **kwargs):

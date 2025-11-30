@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block title %}Загрузить файл (оффлайн) | Техподдержка{% endblock %}
+
+{% block content %}
+<div class="figma-page">
+  <div class="figma-header">
+    <h1 class="figma-title">ЗАГРУЗИТЬ ФАЙЛ (ОФФЛАЙН)</h1>
+  </div>
+  <div class="figma-content">
+    <p class="options-description">
+      Загрузите файл с данными в формате <strong>JSON</strong> или <strong>CSV</strong>.
+      Пример JSON-файла:
+      <pre>{"student_id": 123, "score": 85}</pre>
+    </p>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        <input type="file" name="data_file" accept=".json,.csv" class="form-control" required>
+      </div>
+      <button type="submit" class="btn-create-ticket">Загрузить файл</button>
+      <a href="{% url 'dashboard' %}" class="btn-logout" style="display:inline-block; margin-left:10px;">Назад</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

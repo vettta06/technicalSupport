@@ -180,3 +180,35 @@ def api_data_submission(request):
         },
         status=status.HTTP_201_CREATED
     )
+
+
+@login_required
+@role_required(['respondent'])
+def upload_offline(request):
+    if request.method == 'POST':
+        uploaded_file = request.FILES.get('data_file')
+        if not uploaded_file:
+            messages.error(request, "Файл обязателен.")
+            return redirect('upload_offline')
+        if not uploaded_file.name.endswith(('.json', '.csv')):
+            messages.error(request, "Неподдерживаемый формат")
+            return redirect('upload_offline')
+        submission = DataSubmission.objects.create(
+            user=request.user,
+            channel=3,
+            file_upload=uploaded_file,
+            status="pending"
+        )
+        if uploaded_file.name.endswith('.json'):
+            try:
+                data = json.load(uploaded_file)
+                submission.data = data
+            except (ValueError, TypeError):
+                messages.warning(
+                    request, "Файл загружен, но содержит ошибки формата.")
+                submission.status = 'rejected'
+                submission.validation_errors = {"format": "Неверный JSON"}
+        submission.save()
+        messages.success(request, "Файл успешно загружен!")
+        return redirect('dashboard')
+    return render(request, 'upload_offline.html')
