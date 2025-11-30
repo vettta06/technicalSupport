@@ -1,4 +1,3 @@
-/* Общий стиль страницы */
 .figma-page {
     display: flex;
     flex-direction: column;
@@ -14,7 +13,6 @@
     padding-top: 40px;
 }
 
-/* Заголовок системы */
 .figma-header {
     text-align: center;
     padding: 20px 0;
@@ -25,7 +23,7 @@
 }
 
 .figma-title {
-    color: #F5B02E; /* Оранжевый по умолчанию */
+    color: #F5B02E;
     font-size: 2.2rem;
     margin: 0;
     text-transform: uppercase;
@@ -36,11 +34,10 @@
 }
 
 .figma-title:hover {
-    color: #8ACF35; /* Зелёный при наведении */
+    color: #8ACF35;
     text-shadow: 0 2px 6px rgba(138, 207, 53, 0.4);
 }
 
-/* Основной контент */
 .figma-content {
     display: flex;
     flex-direction: column;
@@ -109,7 +106,7 @@
     flex: 1;
     min-width: 150px;
     padding: 12px 20px;
-    background-color: #8ACF35; /* Зелёный по умолчанию */
+    background-color: #8ACF35;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -122,7 +119,7 @@
 }
 
 .btn-create-ticket:hover {
-    background-color: #F5B02E; /* Оранжевый при наведении */
+    background-color: #F5B02E;
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(245, 176, 46, 0.3);
 }
@@ -148,7 +145,47 @@
     transform: translateY(-2px);
 }
 
-/* Адаптивность */
+.btn-create-ticket,
+.btn-admin-panel {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+}
+
+.btn-create-ticket {
+    background-color: #8ACF35;
+    color: white;
+}
+.btn-create-ticket:hover {
+    background-color: #F5B02E;
+}
+
+.btn-admin-panel {
+    background-color: #9C27B0;
+    color: white;
+}
+.btn-admin-panel:hover {
+    background-color: #BA68C8;
+}
+
+.btn-logout {
+    background: transparent;
+    border: 2px solid #8ACF35;
+    color: #8ACF35;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-logout:hover {
+    background: rgba(138, 207, 53, 0.1);
+}
+
 @media (max-width: 768px) {
     .figma-header { padding: 15px 0; }
     .figma-title { font-size: 1.8rem; }

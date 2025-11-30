@@ -1,17 +1,15 @@
-/* Общий стиль для страницы входа */
 .login-page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #1E0D3A; /* Более глубокий фиолетово-синий фон */
+    background-color: #1E0D3A;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-/* Заголовок системы */
 .system-title {
-    color: #8ACF35; /* Более насыщенный салатовый */
+    color: #8ACF35;
     font-size: 2rem;
     margin-bottom: 5px;
     text-transform: uppercase;
@@ -26,9 +24,8 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Приветственное сообщение */
 .welcome-text {
-    color: #8ACF35; /* Более насыщенный салатовый */
+    color: #8ACF35;
     font-size: 1.2rem;
     margin-bottom: 30px;
     transition: color 0.3s ease;
@@ -41,7 +38,6 @@
     opacity: 0.9;
 }
 
-/* Контейнер для контента (заголовки + форма) */
 .content-container {
     display: flex;
     flex-direction: column;
@@ -52,9 +48,8 @@
     box-sizing: border-box;
 }
 
-/* Контейнер формы */
 .login-form-container {
-    background-color: rgba(245, 245, 245, 0.98); /* Почти белый фон с легким серым оттенком */
+    background-color: rgba(245, 245, 245, 0.98); 
     padding: 35px;
     border-radius: 20px;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
@@ -65,65 +60,58 @@
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Форма входа */
 .login-form {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    width: 100%; /* Убедимся, что форма занимает всю ширину контейнера */
+    width: 100%; 
 }
 
-/* Группа полей */
 .form-group {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    width: 100%; /* Убедимся, что группа полей занимает всю ширину */
+    width: 100%; 
 }
 
-/* Метки полей */
 .form-label {
-    color: #1E0D3A; /* Темный фиолетово-синий для контраста */
+    color: #1E0D3A;
     font-weight: 600;
     font-size: 1.05rem;
     letter-spacing: 0.5px;
-    width: 100%; /* Убедимся, что метка занимает всю ширину */
+    width: 100%;
     text-align: left;
 }
 
-/* Поля ввода */
 .form-input {
     width: 100%;
     padding: 14px 16px;
-    border: 2px solid #8ACF35; /* Салатовый цвет границы */
+    border: 2px solid #8ACF35;
     border-radius: 10px;
     font-size: 1.05rem;
     transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     background-color: #f9fbff;
     font-family: inherit;
-    box-sizing: border-box; /* Важно для корректного расчета ширины */
+    box-sizing: border-box;
 }
 
-/* При наведении на поля ввода */
 .form-input:hover {
-    border-color: #F5B02E; /* Более теплый оранжевый */
+    border-color: #F5B02E;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(245, 176, 46, 0.2);
 }
 
-/* При фокусе на полях ввода */
 .form-input:focus {
     outline: none;
     border-color: #F5B02E;
     box-shadow: 0 0 15px rgba(245, 176, 46, 0.3);
 }
 
-/* Кнопка входа */
 .login-btn {
     width: 100%;
     padding: 14px;
-    background-color: #8ACF35; /* Салатовый цвет */
+    background-color: #8ACF35;
     color: white;
     border: none;
     border-radius: 10px;
@@ -133,17 +121,15 @@
     transition: all 0.3s ease;
     letter-spacing: 1px;
     box-shadow: 0 4px 10px rgba(138, 207, 53, 0.2);
-    box-sizing: border-box; /* Важно для корректного расчета ширины */
+    box-sizing: border-box;
 }
 
-/* При наведении на кнопку */
 .login-btn:hover {
-    background-color: #F5B02E; /* Оранжевый цвет при наведении */
+    background-color: #F5B02E;
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(245, 176, 46, 0.3);
 }
 
-/* Сообщение об ошибке */
 .error-message {
     color: #dc3545;
     background-color: #f8d7da;
@@ -154,18 +140,16 @@
     font-size: 0.95rem;
     font-weight: 500;
     box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
-    width: 100%; /* Убедимся, что сообщение занимает всю ширину */
+    width: 100%;
     text-align: center;
 }
 
-/* Эффект при наведении на заголовок и приветствие */
 .system-title:hover,
 .welcome-text:hover {
-    color: #F5B02E; /* Оранжевый цвет при наведении */
+    color: #F5B02E;
     text-shadow: 0 2px 6px rgba(245, 176, 46, 0.4);
 }
 
-/* Убедимся, что все элементы по центру */
 body {
     margin: 0;
     padding: 0;
@@ -174,7 +158,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Для адаптивности */
 @media (max-width: 768px) {
     .system-title {
         font-size: 1.6rem;
