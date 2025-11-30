@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,75 +7,53 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    <link rel="stylesheet" href="{% static 'css/tickets.css' %}">
+    <link rel="stylesheet" href="{% static 'css/role.css' %}">
+
 </head>
 <body>
-    <!-- Шапка -->
-    <nav class="navbar navbar-expand-lg navbar-dark glass-effect mb-4">
+    <!-- Шапка показывается только для авторизованных пользователей -->
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark glass-effect custom-navbar">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">Техподдержка</a>
+            <a class="navbar-brand fw-bold custom-navbar-brand" href="{% url 'dashboard' %}">Система технической поддержки</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Опции навигации -->
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard' %}">Главная</a>
-                    </li>
-
-                    {% if user.is_authenticated %}
-                        {% if user.role in 'respondent,provider,admin' %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ticket_create' %}">Создать заявку</a>
-                            </li>
-                        {% endif %}
-
-                        {% if user.role == 'support' %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ticket_list' %}">Мои заявки (L{{ user.support_level }})</a>
-                            </li>
-                        {% endif %}
-
-                        {% if user.role == 'admin' %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'admin_data' %}">Админ панель</a>
-                            </li>
-                        {% endif %}
-
-                        {% if user.is_staff %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin/">Django Admin</a>
-                            </li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-
-                <!-- Пользовательское меню -->
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                {{ user.username }} ({{ user.get_role_display }})
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="post" action="{% url 'logout' %}" style="margin:0;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-logout btn-sm">Выйти</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    {% else %}
+                    {% if user.role in 'respondent,provider,admin' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Войти</a>
+                            <a class="nav-link custom-nav-link" href="{% url 'ticket_create' %}">Создать заявку</a>
+                        </li>
+                    {% endif %}
+
+                    {% if user.role == 'support' %}
+                        <li class="nav-item">
+                            <a class="nav-link custom-nav-link" href="{% url 'ticket_list' %}">Мои заявки (L{{ user.support_level }})</a>
+                        </li>
+                    {% endif %}
+
+                    {% if user.role == 'admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link custom-nav-link" href="{% url 'admin_data' %}">Админ панель</a>
+                        </li>
+                    {% endif %}
+
+                    {% if user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link custom-nav-link" href="/admin/">Django Admin</a>
                         </li>
                     {% endif %}
                 </ul>
+
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
     <!-- Основное содержимое -->
-    <div class="container">
+    <div class="main-container">
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -88,5 +66,5 @@
     </div>
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  </body>
+</body>
 </html>

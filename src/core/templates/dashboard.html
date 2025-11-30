@@ -1,34 +1,54 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
-{% block title %}Главная | Техподдержка{% endblock %}
-{% block content %}
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <h2 class="text-center">Система технической поддержки</h2>
-      <div class="card bg-card p-4 mb-4 text-center">
-        <p>Вы вошли как <strong>{{ user.username }}</strong></p>
-        <p>Роль: <strong>{{ user.get_role_display }}</strong></p>
-      </div>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Система технической поддержки</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/role.css' %}">
+</head>
+<body>
+    <div class="figma-page">
+        <!-- Заголовок системы -->
+        <div class="figma-header">
+            <h1 class="figma-title">СИСТЕМА ТЕХНИЧЕСКОЙ ПОДДЕРЖКИ</h1>
+        </div>
 
-      <div class="alert alert-info">
-        <h5 class="text-center">Что можно сделать:</h5>
-        <ul class="list-unstyled text-start">
-          {% if user.role in 'respondent,provider,admin' %}
-            <li class="mb-2"><a href="{% url 'ticket_create' %}">Создать заявку</a></li>
-          {% endif %}
-          {% if user.role == 'support' %}
-            <li class="mb-2"><a href="{% url 'ticket_list' %}">Мои заявки (L{{ user.support_level }})</a></li>
-          {% endif %}
-          {% if user.role == 'admin' %}
-            <li class="mb-2"><a href="{% url 'admin_data' %}">Админ-панель данных</a></li>
-          {% endif %}
-          {% if user.is_staff %}
-            <li class="mb-2"><a href="/admin/">Django Admin</a></li>
-          {% endif %}
-        </ul>
-      </div>
+        <!-- Основной контент -->
+        <div class="figma-content">
+            <!-- Информация о пользователе -->
+            <div class="user-info-section">
+                <div class="role-label">Ваша роль: <strong>{{ user.get_role_display }}</strong></div>
+                <div class="username-label">Вы зашли как: <strong>{{ user.username }}</strong></div>
+            </div>
+
+            <!-- Блок "Вы можете..." -->
+            <div class="options-description">
+                {% if user.role == 'respondent' %}
+                    Вы можете предоставлять данные в Систему через один из трёх каналов: API, онлайн-форма или оффлайн-файл.
+                {% elif user.role == 'provider' %}
+                    Вы интегрируете свой интерфейс с API Системы и обеспечиваете доставку данных от респондентов.
+                {% elif user.role == 'admin' %}
+                    Вы управляете сроками, мониторингом и уведомлениями респондентов.
+                {% elif user.role == 'support' %}
+                    Вы обрабатываете заявки пользователей и эскалируете сложные вопросы.
+                {% endif %}
+            </div>
+
+            <!-- Кнопки в одной строке -->
+            <div class="buttons-container">
+                {% if user.role in 'respondent,provider,admin' %}
+                    <a href="{% url 'ticket_create' %}" class="btn-create-ticket">Создать заявку</a>
+                {% endif %}
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">ВЫХОД</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-{% endblock %}
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

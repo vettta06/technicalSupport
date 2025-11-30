@@ -1,93 +1,211 @@
-:root {
-  --primary: #6a4c93; /* фиолетовый */
-  --secondary: #2e2a47; /* темно-фиолетовый */
-  --accent: #8ac926; /* салатовый */
-  --light: #f0f0f0;
-  --dark: #121212;
-  --glass-bg: rgba(20, 20, 20, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --radius: 12px;
-  --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+/* Общий стиль для страницы входа */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #1E0D3A; /* Более глубокий фиолетово-синий фон */
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-* {
-  box-sizing: border-box;
+/* Заголовок системы */
+.system-title {
+    color: #8ACF35; /* Более насыщенный салатовый */
+    font-size: 2rem;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Приветственное сообщение */
+.welcome-text {
+    color: #8ACF35; /* Более насыщенный салатовый */
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    transition: color 0.3s ease;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+    opacity: 0.9;
+}
+
+/* Контейнер для контента (заголовки + форма) */
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Контейнер формы */
+.login-form-container {
+    background-color: rgba(245, 245, 245, 0.98); /* Почти белый фон с легким серым оттенком */
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 420px;
+    margin-top: 200px;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Форма входа */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%; /* Убедимся, что форма занимает всю ширину контейнера */
+}
+
+/* Группа полей */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%; /* Убедимся, что группа полей занимает всю ширину */
+}
+
+/* Метки полей */
+.form-label {
+    color: #1E0D3A; /* Темный фиолетово-синий для контраста */
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    width: 100%; /* Убедимся, что метка занимает всю ширину */
+    text-align: left;
+}
+
+/* Поля ввода */
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #8ACF35; /* Салатовый цвет границы */
+    border-radius: 10px;
+    font-size: 1.05rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f9fbff;
+    font-family: inherit;
+    box-sizing: border-box; /* Важно для корректного расчета ширины */
+}
+
+/* При наведении на поля ввода */
+.form-input:hover {
+    border-color: #F5B02E; /* Более теплый оранжевый */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(245, 176, 46, 0.2);
+}
+
+/* При фокусе на полях ввода */
+.form-input:focus {
+    outline: none;
+    border-color: #F5B02E;
+    box-shadow: 0 0 15px rgba(245, 176, 46, 0.3);
+}
+
+/* Кнопка входа */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #8ACF35; /* Салатовый цвет */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(138, 207, 53, 0.2);
+    box-sizing: border-box; /* Важно для корректного расчета ширины */
+}
+
+/* При наведении на кнопку */
+.login-btn:hover {
+    background-color: #F5B02E; /* Оранжевый цвет при наведении */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(245, 176, 46, 0.3);
+}
+
+/* Сообщение об ошибке */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
+    width: 100%; /* Убедимся, что сообщение занимает всю ширину */
+    text-align: center;
+}
+
+/* Эффект при наведении на заголовок и приветствие */
+.system-title:hover,
+.welcome-text:hover {
+    color: #F5B02E; /* Оранжевый цвет при наведении */
+    text-shadow: 0 2px 6px rgba(245, 176, 46, 0.4);
+}
+
+/* Убедимся, что все элементы по центру */
 body {
-  font-family: var(--font-main);
-  background-color: #0f0f0f;
-  color: #e0e0e0;
-  line-height: 1.6;
-  padding-top: 20px;
-  padding-bottom: 40px;
-  margin: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
-  max-width: 1200px;
-  padding: 0 1rem;
+/* Для адаптивности */
+@media (max-width: 768px) {
+    .system-title {
+        font-size: 1.6rem;
+        top: 15px;
+    }
+    
+    .welcome-text {
+        font-size: 1.1rem;
+        top: 60px;
+    }
+    
+    .content-container {
+        padding: 20px 15px;
+    }
+    
+    .login-form-container {
+        padding: 25px;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 120px;
+        border-radius: 15px;
+    }
+    
+    .form-input {
+        padding: 12px 14px;
+        font-size: 1rem;
+    }
+    
+    .login-btn {
+        padding: 12px;
+        font-size: 1.05rem;
+    }
 }
 
-.glass-effect {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  margin-top: 16px;
-}
-
-.navbar-brand {
-  font-size: 1.5rem;
-  letter-spacing: -0.5px;
-  color: #ffffff !important;
-  font-weight: 700;
-}
-
-.nav-link {
-  color: #d0d0d0 !important;
-  transition: color 0.2s ease;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-}
-
-.nav-link:hover {
-  color: var(--accent) !important;
-}
-
-.dropdown-menu {
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.dropdown-item {
-  color: #e0e0e0;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-}
-
-.dropdown-item:hover {
-  background-color: var(--primary);
-  color: white;
-}
-
-.dropdown-divider {
-  border-top: none;
-  margin: 0.25rem 0;
-}
-
-.alert {
-  border: none;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  background: rgba(106, 76, 147, 0.2);
-  color: #ffffff;
-  font-size: 1rem;
-  padding: 1rem 1.25rem;
-}

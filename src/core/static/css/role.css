@@ -1,0 +1,174 @@
+/* Общий стиль страницы */
+.figma-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #1E0D3A;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+}
+
+/* Заголовок системы */
+.figma-header {
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 800px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #8ACF35;
+}
+
+.figma-title {
+    color: #F5B02E; /* Оранжевый по умолчанию */
+    font-size: 2.2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.figma-title:hover {
+    color: #8ACF35; /* Зелёный при наведении */
+    text-shadow: 0 2px 6px rgba(138, 207, 53, 0.4);
+}
+
+/* Основной контент */
+.figma-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.user-info-section {
+    text-align: left;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.role-label,
+.username-label {
+    color: #F5B02E;
+    font-weight: bold;
+    margin: 0;
+}
+
+.role-label {
+    font-size: 1.3rem;
+}
+
+.username-label {
+    font-size: 1.1rem;
+}
+
+.options-description {
+    color: #8ACF35;
+    font-size: 1.0rem;
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    max-width: 600px;
+    padding: 15px 20px;
+    background-color: rgba(30, 13, 58, 0.5);
+    border: 1px solid rgba(138, 207, 53, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-style: italic;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-create-ticket {
+    flex: 1;
+    min-width: 150px;
+    padding: 12px 20px;
+    background-color: #8ACF35; /* Зелёный по умолчанию */
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(138, 207, 53, 0.2);
+    display: block;
+}
+
+.btn-create-ticket:hover {
+    background-color: #F5B02E; /* Оранжевый при наведении */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(245, 176, 46, 0.3);
+}
+
+.btn-logout {
+    flex: 1;
+    min-width: 100px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #e0e0e0;
+    color: #1E0D3A;
+    border: 2px solid #cccccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #d0d0d0;
+    border-color: #aaaaaa;
+    transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .figma-header { padding: 15px 0; }
+    .figma-title { font-size: 1.8rem; }
+    .role-label { font-size: 1.1rem; }
+    .username-label { font-size: 1.0rem; }
+    .options-description { 
+        font-size: 0.95rem; 
+        padding: 10px 15px; 
+        font-style: normal; 
+        max-width: 100%; 
+    }
+    .buttons-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .btn-create-ticket,
+    .btn-logout { 
+        width: 100%;
+        max-width: 100%;
+        padding: 10px 15px;
+        font-size: 0.95rem;
+    }
+}
