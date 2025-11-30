@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
-    path("respondent/", views.submit_data, name="respondent"),
     path("admin_data/", views.admin_dashboard, name="admin_data"),
     path("provider/", views.provider_dashboard, name="provider"),
     path("tickets/create/", views.ticket_create, name="ticket_create"),
@@ -24,4 +23,5 @@ urlpatterns = [
         name='ticket_resolve'
     ),
     path('api/data/', views.api_data_submission, name='api_data_submission'),
+    path("submit-data/", views.submit_data, name="submit_data"),
 ]

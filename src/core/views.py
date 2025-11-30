@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import get_user_model
 from .models import DataSubmission
+from django.contrib import messages
+import json
 
 
 @login_required
@@ -18,8 +20,27 @@ def dashboard(request):
     return render(request, "dashboard.html", {"user": request.user})
 
 
+@login_required
 @role_required(["respondent"])
 def submit_data(request):
+    if request.method == 'POST':
+        data_json = request.POST.get('data_json', '').strip()
+        if not data_json:
+            messages.error(request, "Поле данных не может быть пустым.")
+            return redirect('submit_data')
+        try:
+            data = json.loads(data_json)
+        except json.JSONDecodeError:
+            messages.error(request, "Неверный формат.")
+            return redirect('submit_data')
+        DataSubmission.objects.create(
+            user=request.user,
+            channel=2,
+            data=data,
+            status='pending'
+        )
+        messages.success(request, "Данные успешно отправлены")
+        return redirect('dashboard')
     return render(request, "submit_data.html")
 
 

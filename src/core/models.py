@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.forms import ValidationError
 
 ROLE_CHOICES = (
     ("respondent", "Респондент"),
@@ -99,6 +100,27 @@ class DataSubmission(models.Model):
     submitted_at = models.DateTimeField(auto_now_add=True)
     validated_at = models.DateTimeField(null=True, blank=True)
     rejection_reason = models.TextField("Причина отклонения", blank=True)
+    validation_errors = models.JSONField(
+        "Ошибки валидации", default=dict, blank=True)
+    
+    def clean(self):
+        if not self.data:
+            raise ValidationError("Поле 'data' обязательно.")
+        if not isinstance(self.data, dict):
+            raise ValidationError("Поле 'data' должно быть объектом.")
+
+        if "name" not in self.data:
+            self.validation_errors = {"name": "Обязательное поле"}
+        else:
+            self.validation_errors = {}
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        if self.validation_errors:
+            self.status = 'rejected'
+        else:
+            self.status = 'accepted'
+        super().save(*args, **kwargs)
 
 
 class Notification(models.Model):

@@ -186,6 +186,20 @@
     background: rgba(138, 207, 53, 0.1);
 }
 
+.btn-ticket {
+    background-color: #9C27B0; 
+    color: white;
+    padding: 12px 24px;
+    margin: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+}
+.btn-ticket:hover {
+    background-color: #BA68C8;
+}
+
 @media (max-width: 768px) {
     .figma-header { padding: 15px 0; }
     .figma-title { font-size: 1.8rem; }
