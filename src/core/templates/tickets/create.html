@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}Создать заявку | Техподдержка{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/tickets.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-md-6">
     <div class="form-page-container">
-      <h3>Создать новую заявку</h3>
-      <form method="post">
+      <h3 class="form-title">Создать новую заявку</h3>
+      <form method="post" class="ticket-form">
         {% csrf_token %}
-        <div class="mb-3">
+        <div class="form-group">
           <label for="subject" class="form-label">Тема</label>
-          <input type="text" name="subject" id="subject" class="form-control" required>
+          <input type="text" name="subject" id="subject" class="form-input" required>
         </div>
-        <div class="mb-3">
+        <div class="form-group">
           <label for="category" class="form-label">Категория</label>
           <select name="category" id="category" class="form-select" required>
             <option value="">Выберите категорию</option>
@@ -24,12 +31,14 @@
             <option value="other">Другое</option>
           </select>
         </div>
-        <div class="mb-3">
+        <div class="form-group">
           <label for="description" class="form-label">Описание проблемы</label>
-          <textarea name="description" id="description" class="form-control" rows="5" required></textarea>
+          <textarea name="description" id="description" class="form-input" rows="5" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Отправить заявку</button>
-        <a href="{% url 'dashboard' %}" class="btn btn-secondary ms-2">Назад</a>
+        <div class="form-buttons">
+          <button type="submit" class="btn-submit">Отправить заявку</button>
+          <a href="{% url 'dashboard' %}" class="btn-back">Назад</a>
+        </div>
       </form>
     </div>
   </div>
