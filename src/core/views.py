@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import get_user_model
-from .models import DataSubmission
+from .models import DataSubmission, Notification
 from django.contrib import messages
 from django.db import models
 import json
@@ -29,13 +29,30 @@ def submit_data(request):
     if request.method == 'POST':
         data_json = request.POST.get('data_json', '').strip()
         if not data_json:
-            messages.error(request, "Поле данных не может быть пустым.")
-            return redirect('submit_data')
+            Notification.objects.create(
+                user=request.user,
+                message="Поле данных не может быть пустым."
+            )
+            messages.error(request, "Ошибка! Проверьте уведомления.")
+            return redirect('notifications')
         try:
             data = json.loads(data_json)
         except json.JSONDecodeError:
-            messages.error(request, "Неверный формат.")
-            return redirect('submit_data')
+            Notification.objects.create(
+                user=request.user,
+                message="Файл содержит ошибки формата JSON."
+                "Проверьте структуру и повторите отправку."
+            )
+            messages.error(request, "Ошибка! Проверьте уведомления.")
+            return redirect('notifications')
+        if "student_id" not in data:
+            Notification.objects.create(
+                user=request.user,
+                message="Обязательное поле 'student_id' отсутствует в данных."
+            )
+            messages.error(request, "Ошибка! Проверьте уведомления.")
+            return redirect('notifications')
+
         DataSubmission.objects.create(
             user=request.user,
             channel=2,
@@ -63,7 +80,7 @@ class CustomLogoutView(LogoutView):
     http_method_names = ["get", "post", "head", "options"]
 
 
-@role_required(["respondent", "provider"])
+@role_required(["respondent", "provider", "admin"])
 def ticket_create(request):
     """Создание заявки"""
     if request.method == "POST":
@@ -83,6 +100,12 @@ def ticket_create(request):
             ticket.status = "escalated"
             ticket.save()
 
+        l1_agents = User.objects.filter(role='support', support_level=1)
+        for agent in l1_agents:
+            Notification.objects.create(
+                user=agent,
+                message=f"Новая заявка от {request.user.username}: {subject}"
+            )
         return redirect("ticket_list")
     return render(request, "tickets/create.html")
 
@@ -227,3 +250,13 @@ def upload_offline(request):
         messages.success(request, "Файл успешно загружен!")
         return redirect('dashboard')
     return render(request, 'upload_offline.html')
+
+
+@login_required
+def notifications(request):
+    """Уведомления"""
+    notifications = Notification.objects.filter(
+        user=request.user).order_by('-created_at')
+    notifications.update(is_read=True)
+    return render(
+        request, 'notifications.html', {'notifications': notifications})

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Уведомления</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/role.css' %}">
+</head>
+<body>
+  <div class="figma-page">
+    <div class="figma-header">
+      <h1 class="figma-title">УВЕДОМЛЕНИЯ</h1>
+    </div>
+    <div class="figma-content">
+      {% if notifications %}
+        <div class="notifications-list">
+          {% for note in notifications %}
+            {% if not note.is_read %}
+                <span class="badge bg-warning text-dark me-2">!</span>
+            {% endif %}
+            <div class="notification-item">
+              <p>{{ note.message }}</p>
+              <small>{{ note.created_at|date:"d.m.Y H:i" }}</small>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>Нет новых уведомлений.</p>
+      {% endif %}
+      <a href="{% url 'dashboard' %}" class="btn-logout">Назад</a>
+    </div>
+  </div>
+</body>
+</html>

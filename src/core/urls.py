@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/data/', views.api_data_submission, name='api_data_submission'),
     path("submit-data/", views.submit_data, name="submit_data"),
     path("upload-offline/", views.upload_offline, name="upload_offline"),
+    path("notifications/", views.notifications, name='notifications'),
 ]
