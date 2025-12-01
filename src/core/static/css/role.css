@@ -192,17 +192,6 @@
   background: rgba(138, 207, 53, 0.1);
 }
 
-.badge {
-  font-size: 0.75rem;
-  padding: 0.3em 0.5em;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.4em;
-  height: 1.4em;
-}
-
 @media (max-width: 768px) {
   .figma-header {
     padding: 15px 0;
@@ -232,5 +221,124 @@
     max-width: 100%;
     padding: 10px 15px;
     font-size: 0.95rem;
+  }
+}
+
+.stats-filter-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  align-items: flex-start;
+}
+
+.stats-box,
+.filter-box {
+  flex: 1;
+  background-color: rgba(30, 13, 58, 0.5);
+  border: 1px solid rgba(138, 207, 53, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+}
+
+.stats-box h5,
+.filter-box h5 {
+  color: #f5b02e;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.stats-box ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.stats-box li {
+  color: #8acf35;
+  font-size: 1.05rem;
+  margin: 6px 0;
+}
+
+.filter-box .form-select {
+  background-color: rgba(30, 13, 58, 0.7);
+  border: 1px solid #8acf35;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease;
+  min-width: 120px;
+}
+
+.filter-box .form-select:focus {
+  border-color: #f5b02e;
+  box-shadow: 0 0 0 3px rgba(245, 176, 46, 0.25);
+  outline: none;
+}
+
+.filter-box .filter-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.filter-box .filter-buttons .btn-create-ticket,
+.filter-box .filter-buttons .btn-logout {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.filter-box .btn-create-ticket {
+  background-color: #8acf35;
+  color: white !important;
+  border: none;
+  box-shadow: 0 2px 6px rgba(138, 207, 53, 0.2);
+}
+
+.filter-box .btn-create-ticket:hover {
+  background-color: #f5b02e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(245, 176, 46, 0.4);
+}
+
+.filter-box .btn-logout {
+  background: transparent;
+  border: 2px solid #8acf35;
+  color: #8acf35 !important;
+}
+
+.filter-box .btn-logout:hover {
+  background: rgba(138, 207, 53, 0.15);
+  color: #f5b02e !important;
+  border-color: #f5b02e;
+}
+
+@media (max-width: 768px) {
+  .stats-filter-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .filter-box .filter-buttons {
+    flex-direction: column;
+  }
+
+  .filter-box .filter-buttons .btn-create-ticket,
+  .filter-box .filter-buttons .btn-logout {
+    width: 100%;
   }
 }

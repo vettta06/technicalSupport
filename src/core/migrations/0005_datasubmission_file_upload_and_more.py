@@ -8,38 +8,52 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_ticket_category'),
+        ("core", "0004_ticket_category"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='datasubmission',
-            name='file_upload',
-            field=models.FileField(blank=True, null=True, upload_to='submissions/'),
+            model_name="datasubmission",
+            name="file_upload",
+            field=models.FileField(blank=True, null=True, upload_to="submissions/"),
         ),
         migrations.AddField(
-            model_name='datasubmission',
-            name='provider_name',
-            field=models.CharField(blank=True, max_length=255, verbose_name='Имя поставщика'),
+            model_name="datasubmission",
+            name="provider_name",
+            field=models.CharField(
+                blank=True, max_length=255, verbose_name="Имя поставщика"
+            ),
         ),
         migrations.AddField(
-            model_name='datasubmission',
-            name='rejection_reason',
-            field=models.TextField(blank=True, verbose_name='Причина отклонения'),
+            model_name="datasubmission",
+            name="rejection_reason",
+            field=models.TextField(blank=True, verbose_name="Причина отклонения"),
         ),
         migrations.AddField(
-            model_name='datasubmission',
-            name='validated_at',
+            model_name="datasubmission",
+            name="validated_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='datasubmission',
-            name='status',
-            field=models.CharField(choices=[('pending', 'Ожидает валидации'), ('accepted', 'Принято'), ('rejected', 'Отклонено')], max_length=10),
+            model_name="datasubmission",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("pending", "Ожидает валидации"),
+                    ("accepted", "Принято"),
+                    ("rejected", "Отклонено"),
+                ],
+                max_length=10,
+            ),
         ),
         migrations.AlterField(
-            model_name='datasubmission',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="datasubmission",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

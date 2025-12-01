@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0005_datasubmission_file_upload_and_more'),
+        ("core", "0005_datasubmission_file_upload_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='datasubmission',
-            name='validation_errors',
-            field=models.JSONField(blank=True, default=dict, verbose_name='Ошибки валидации'),
+            model_name="datasubmission",
+            name="validation_errors",
+            field=models.JSONField(
+                blank=True, default=dict, verbose_name="Ошибки валидации"
+            ),
         ),
         migrations.AlterField(
-            model_name='datasubmission',
-            name='data',
+            model_name="datasubmission",
+            name="data",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

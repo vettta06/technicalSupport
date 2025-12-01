@@ -1,31 +1,97 @@
-<!DOCTYPE html>
-{% extends "base.html" %} 
-{% block title %}Администратор — Техподдержка{%endblock %}
+{% extends "base.html" %}
+{% block title %}Админ-панель данных | Техподдержка{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-8">
-    <h2 class="text-center">Панель администратора данных</h2>
-    <div class="card bg-card p-4 mb-4">
-      <h5>Вы — <strong>Администратор сбора данных</strong></h5>
-      <p>Вы управляете:</p>
-      <ul>
-        <li>Сроками предоставления данных</li>
-        <li>Валидацией и полнотой данных</li>
-        <li>Рассылкой уведомлений респондентам</li>
-      </ul>
-      <p>
-        При проблемах с работой Системы — создайте заявку. Если проблема
-        системная (медленная работа, ошибки валидации), она может быть передана
-        L2 или L3.
-      </p>
+<div class="figma-page">
+  <div class="figma-header">
+    <h1 class="figma-title">АДМИН-ПАНЕЛЬ ДАННЫХ</h1>
+  </div>
+
+  <div class="figma-content">
+    <div class="stats-filter-row d-flex gap-4 mb-4">
+      <div class="stats-box flex-fill p-3">
+        <h5>Статистика по каналам</h5>
+        <ul>
+          {% for s in stats %}
+            <li>Канал {{ s.channel }}: {{ s.total }} записей</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="filter-box flex-fill p-3">
+        <h5>Фильтр данных</h5>
+        <form method="get">
+          <div class="d-flex gap-2 mb-3">
+            <select name="channel" class="form-select flex-grow-1">
+              <option value="">Все каналы</option>
+              <option value="1" {% if current_channel == '1' %}selected{% endif %}>API</option>
+              <option value="2" {% if current_channel == '2' %}selected{% endif %}>Онлайн</option>
+              <option value="3" {% if current_channel == '3' %}selected{% endif %}>Оффлайн</option>
+            </select>
+            <select name="status" class="form-select flex-grow-1">
+              <option value="">Любой статус</option>
+              <option value="pending" {% if current_status == 'pending' %}selected{% endif %}>Ожидает</option>
+              <option value="accepted" {% if current_status == 'accepted' %}selected{% endif %}>Принято</option>
+              <option value="rejected" {% if current_status == 'rejected' %}selected{% endif %}>Отклонено</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn-create-ticket w-100">Применить</button>
+            <a href="{% url 'admin_data' %}" class="btn-logout w-100 text-center">Сброс</a>
+          </div>
+        </form>
+      </div>
+    </div>
+        
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Пользователь</th>
+            <th>Канал</th>
+            <th>Статус</th>
+            <th>Дата</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sub in submissions %}
+          <tr>
+            <td>{{ sub.id }}</td>
+            <td>
+              {% if sub.user %}
+                {{ sub.user.username }}
+              {% else %}
+                {{ sub.provider_name|default:"—" }}
+              {% endif %}
+            </td>
+            <td>
+              {% if sub.channel == 1 %}API
+              {% elif sub.channel == 2 %}Онлайн
+              {% elif sub.channel == 3 %}Оффлайн
+              {% endif %}
+            </td>
+            <td>
+              {% if sub.status == 'accepted' %}
+                <span class="text-success">Принято</span>
+              {% elif sub.status == 'rejected' %}
+                <span class="text-danger">Отклонено</span>
+              {% else %}
+                <span class="text-warning">Ожидает</span>
+              {% endif %}
+            </td>
+            <td>{{ sub.submitted_at|date:"d.m.Y H:i" }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center">Нет данных</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
-    <div class="d-grid gap-2">
-      <a href="{% url 'ticket_create' %}" class="btn btn-primary"
-        >Создать заявку</a
-      >
-      <a href="{% url 'dashboard' %}" class="btn btn-secondary">На главную</a>
-    </div>
+    <a href="{% url 'dashboard' %}" class="btn-logout">На главную</a>
   </div>
 </div>
 {% endblock %}

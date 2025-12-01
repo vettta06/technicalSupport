@@ -19,13 +19,9 @@ SUPPORT_LEVEL_CHOICES = (
 class User(AbstractUser):
     """Модель пользователя."""
 
-    role = models.CharField(
-        max_length=20, choices=ROLE_CHOICES, default="respondent")
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="respondent")
     support_level = models.PositiveSmallIntegerField(
-        'Уровень поддержки',
-        choices=SUPPORT_LEVEL_CHOICES,
-        null=True,
-        blank=True
+        "Уровень поддержки", choices=SUPPORT_LEVEL_CHOICES, null=True, blank=True
     )
 
     def __str__(self):
@@ -57,18 +53,14 @@ class Ticket(models.Model):
     )
 
     subject = models.CharField(max_length=255)
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="new")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="new")
     description = models.TextField(blank=True)
     support_line = models.IntegerField(choices=SUPPORT_LINE_CHOICES, default=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField("Создана", auto_now_add=True)
     update_at = models.DateTimeField("Обновлена", auto_now=True)
     category = models.CharField(
-        'Категория',
-        max_length=20,
-        choices=CATEGORY_CHOICES,
-        default='other'
+        "Категория", max_length=20, choices=CATEGORY_CHOICES, default="other"
     )
 
     def __str__(self):
@@ -88,20 +80,16 @@ class DataSubmission(models.Model):
         ("accepted", "Принято"),
         ("rejected", "Отклонено"),
     ]
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
-    provider_name = models.CharField(
-        "Имя поставщика", max_length=255, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    provider_name = models.CharField("Имя поставщика", max_length=255, blank=True)
     channel = models.IntegerField(choices=CHANNEL_CHOICES)
     data = models.JSONField(blank=True, null=True)
-    file_upload = models.FileField(
-        upload_to="submissions/", null=True, blank=True)
+    file_upload = models.FileField(upload_to="submissions/", null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
     submitted_at = models.DateTimeField(auto_now_add=True)
     validated_at = models.DateTimeField(null=True, blank=True)
     rejection_reason = models.TextField("Причина отклонения", blank=True)
-    validation_errors = models.JSONField(
-        "Ошибки валидации", default=dict, blank=True)
+    validation_errors = models.JSONField("Ошибки валидации", default=dict, blank=True)
 
     def clean(self):
         """Корректность"""
@@ -122,9 +110,9 @@ class DataSubmission(models.Model):
         """Сохранение"""
         self.full_clean()
         if self.validation_errors:
-            self.status = 'rejected'
+            self.status = "rejected"
         else:
-            self.status = 'accepted'
+            self.status = "accepted"
         super().save(*args, **kwargs)
 
 
