@@ -91,10 +91,14 @@ def ticket_create(request):
 def ticket_list(request):
     """Список заявок"""
     if request.user.support_level == 1:
-        tickets = Ticket.objects.filter(support_line=1).order_by("-created_at")
+        tickets = Ticket.objects.filter(
+            support_line=1,
+            status__in=['open', 'in_progress']
+            ).order_by("-created_at")
     elif request.user.support_level == 2:
         tickets = Ticket.objects.filter(
-            support_line=request.user.support_level
+            support_line=2,
+            status='escalated'
         ).order_by("-created_at")
     elif request.user.support_level == 3:
         tickets = Ticket.objects.filter(
