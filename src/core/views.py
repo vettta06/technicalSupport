@@ -12,6 +12,7 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from .models import DataSubmission
 from django.contrib import messages
+from django.db import models
 import json
 
 
@@ -95,6 +96,11 @@ def ticket_list(request):
         tickets = Ticket.objects.filter(
             support_line=request.user.support_level
         ).order_by("-created_at")
+    elif request.user.support_level == 3:
+        tickets = Ticket.objects.filter(
+            models.Q(support_line=3) |
+            models.Q(category__in=['system_performance', 'response_time'])
+        )
     else:
         tickets = Ticket.objects.none()
     return render(request, "tickets/list.html", {"tickets": tickets})
