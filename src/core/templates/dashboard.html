@@ -31,9 +31,11 @@
               </div>
               <div class="buttons-container">
                   {% if user.role == 'respondent' %}
-                    <a href="{% url 'submit_data' %}" class="btn-create-ticket">Отправить данные</a>
-                    <a href="{% url 'ticket_create' %}" class="btn-ticket">Сообщить о проблеме</a>
-                    <a href="{% url 'upload_offline' %}" class="btn-ticket">Загрузить файл (оффлайн)</a>
+                    <div class="main-actions">
+                        <a href="{% url 'submit_data' %}" class="action-btn">Отправить данные</a>
+                        <a href="{% url 'ticket_create' %}" class="action-btn">Сообщить о проблеме</a>
+                        <a href="{% url 'upload_offline' %}" class="action-btn">Загрузить файл (оффлайн)</a>
+                    </div>
                   {% elif user.role in 'provider,admin' %}
                     <a href="{% url 'ticket_create' %}" class="btn-create-ticket">Создать заявку</a>
                   {% endif %}

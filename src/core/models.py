@@ -102,8 +102,9 @@ class DataSubmission(models.Model):
     rejection_reason = models.TextField("Причина отклонения", blank=True)
     validation_errors = models.JSONField(
         "Ошибки валидации", default=dict, blank=True)
-    
+
     def clean(self):
+        """Корректность"""
         if self.channel in [1, 2]:
             if not self.data:
                 raise ValidationError("Поле 'data' обязательно.")
@@ -118,6 +119,7 @@ class DataSubmission(models.Model):
             self.validation_errors = {}
 
     def save(self, *args, **kwargs):
+        """Сохранение"""
         self.full_clean()
         if self.validation_errors:
             self.status = 'rejected'

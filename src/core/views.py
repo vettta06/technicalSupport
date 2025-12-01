@@ -17,12 +17,14 @@ import json
 
 @login_required
 def dashboard(request):
+    """Открытие дашборда"""
     return render(request, "dashboard.html", {"user": request.user})
 
 
 @login_required
 @role_required(["respondent"])
 def submit_data(request):
+    """Отправка данных"""
     if request.method == 'POST':
         data_json = request.POST.get('data_json', '').strip()
         if not data_json:
@@ -46,11 +48,13 @@ def submit_data(request):
 
 @role_required(["admin"])
 def admin_dashboard(request):
+    """Страница админа"""
     return render(request, "admin_dashboard.html")
 
 
 @role_required(["provider"])
 def provider_dashboard(request):
+    """Страница провайдера"""
     return render(request, "provider_dashboard.html")
 
 
@@ -153,7 +157,7 @@ User = get_user_model()
 
 @api_view(['POST'])
 def api_data_submission(request):
-    """Канал 1: Приём данных через API."""
+    """Канал 1: Приём данных через API"""
     provider_name = request.data.get('provider_name')
     data_payload = request.data.get('data')
     if not provider_name:
@@ -185,6 +189,7 @@ def api_data_submission(request):
 @login_required
 @role_required(['respondent'])
 def upload_offline(request):
+    """Загрузка данных в offline-режимме."""
     if request.method == 'POST':
         uploaded_file = request.FILES.get('data_file')
         if not uploaded_file:
