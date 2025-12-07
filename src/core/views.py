@@ -23,6 +23,18 @@ def dashboard(request):
     return render(request, "dashboard.html", {"user": request.user})
 
 
+def pluralize_word(n, forms):
+    n = abs(n) % 100
+    n1 = n % 10
+    if n > 10 and n < 20:
+        return forms[2]
+    if n1 > 1 and n1 < 5:
+        return forms[1]
+    if n1 == 1:
+        return forms[0]
+    return forms[2]
+
+
 @login_required
 @role_required(["respondent"])
 def submit_data(request):
@@ -89,7 +101,29 @@ def admin_dashboard(request):
         submissions = submissions.filter(channel=channel)
     if status:
         submissions = submissions.filter(status=status)
-    stats = DataSubmission.objects.values('channel').annotate(total=Count('id'))
+    stats_raw = DataSubmission.objects.values('channel').annotate(total=Count('id'))
+    stats = []
+    channel_labels = {1: "API", 2: "Онлайн", 3: "Оффлайн"}
+    for item in stats_raw:
+        ch = item['channel']
+        total = item['total']
+        word = pluralize_word(total, ("запись", "записи", "записей"))
+        stats.append({
+            'channel': ch,
+            'channel_label': channel_labels.get(ch, f"Канал {ch}"),
+            'total': total,
+            'word': word
+        })
+    for ch in [1, 2, 3]:
+        if not any(s['channel'] == ch for s in stats):
+            stats.append({
+                'channel': ch,
+                'channel_label': channel_labels[ch],
+                'total': 0,
+                'word': pluralize_word(0, ("запись", "записи", "записей"))  # → "записей"
+            })
+
+    stats.sort(key=lambda x: x['channel'])
 
     return render(request, 'admin_dashboard.html', {
         'submissions': submissions,

@@ -21,7 +21,7 @@
               <a href="{% url 'notifications' %}" class="btn-create-ticket">Уведомления</a>
               <div class="options-description">
                   {% if user.role == 'respondent' %}
-                      Вы можете предоставлять данные в Систему через API или оффлайн-файл.
+                      Вы можете предоставлять данные в Систему через онлайн-форму или оффлайн-файл.
                   {% elif user.role == 'provider' %}
                       Вы интегрируете свой интерфейс с API Системы и обеспечиваете доставку данных от респондентов.
                   {% elif user.role == 'admin' %}

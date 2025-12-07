@@ -7,13 +7,27 @@
     <h1 class="figma-title">АДМИН-ПАНЕЛЬ ДАННЫХ</h1>
   </div>
 
+  <div class="alert alert-info mb-4">
+    <h5>Функции администратора сбора данных:</h5>
+    <ul>
+      <li>Настройка сроков предоставления данных</li>
+      <li>Определение обязательных полей (схемы данных)</li>
+      <li>Отправка уведомлений респондентам</li>
+      <li>Мониторинг: кто отправил данные, у кого ошибки, статистика по каналам</li>
+    </ul>
+    <p>
+      При технических проблемах (сбои, ошибки валидации, медленная работа) 
+      вы можете создать заявку в техническую поддержку.
+    </p>
+  </div>
+
   <div class="figma-content">
     <div class="stats-filter-row d-flex gap-4 mb-4">
       <div class="stats-box flex-fill p-3">
         <h5>Статистика по каналам</h5>
         <ul>
           {% for s in stats %}
-            <li>Канал {{ s.channel }}: {{ s.total }} записей</li>
+            <li>{{ s.channel_label }}: {{ s.total }} {{ s.word }}</li>
           {% endfor %}
         </ul>
       </div>
@@ -41,7 +55,6 @@
         </form>
       </div>
     </div>
-        
 
     <div class="table-responsive">
       <table class="table">
