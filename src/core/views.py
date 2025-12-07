@@ -50,11 +50,29 @@ def submit_data(request):
                 user=request.user,
                 message="Обязательное поле 'student_id' отсутствует в данных.",
             )
-            messages.error(request, "Ошибка! Проверьте уведомления.")
+            ticket = Ticket.objects.create(
+                subject="Ошибка при отправке данных",
+                description="Отсутствует обязательное поле 'student_id' в отправленных данных.",
+                user=request.user,
+                support_line=1,
+                category="notification"
+            )
+
+            l1_agents = User.objects.filter(role="support", support_level=1)
+            for agent in l1_agents:
+                Notification.objects.create(
+                    user=agent,
+                    message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                )
+            messages.error(request, "Обнаружена ошибка, мы уже передали её в поддержку.")
             return redirect("notifications")
 
         DataSubmission.objects.create(
             user=request.user, channel=2, data=data, status="pending"
+        )
+        Notification.objects.create(
+            user=request.user,
+            message="Данные успешно приняты. Спасибо!"
         )
         messages.success(request, "Данные успешно отправлены")
         return redirect("dashboard")
@@ -91,7 +109,7 @@ class CustomLogoutView(LogoutView):
     http_method_names = ["get", "post", "head", "options"]
 
 
-@role_required(["respondent", "provider", "admin"])
+@role_required(["provider", "admin"])
 def ticket_create(request):
     """Создание заявки"""
     if request.method == "POST":
@@ -129,8 +147,8 @@ def ticket_list(request):
             support_line=1, status__in=["open", "in_progress"]
         ).order_by("-created_at")
     elif request.user.support_level == 2:
-        tickets = Ticket.objects.filter(support_line=2, status="escalated").order_by(
-            "-created_at"
+        tickets = Ticket.objects.filter(
+            support_line=2, status="escalated").order_by("-created_at"
         )
     elif request.user.support_level == 3:
         tickets = Ticket.objects.filter(
@@ -162,7 +180,9 @@ def ticket_escalate(request, ticket_id):
 def ticket_detail(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     if request.user.support_level == 1 and ticket.support_line != 1:
-        return HttpResponseForbidden("Вы можете просматривать только заявки L1.")
+        return HttpResponseForbidden(
+            "Вы можете просматривать только заявки L1."
+            )
     elif (
         request.user.support_level in [2, 3]
         and ticket.support_line != request.user.support_level
@@ -212,7 +232,10 @@ def api_data_submission(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
     submission = DataSubmission.objects.create(
-        provider_name=provider_name, channel=1, data=data_payload, status="pending"
+        provider_name=provider_name,
+        channel=1,
+        data=data_payload,
+        status="pending"
     )
     return Response(
         {
@@ -231,22 +254,96 @@ def upload_offline(request):
     if request.method == "POST":
         uploaded_file = request.FILES.get("data_file")
         if not uploaded_file:
-            messages.error(request, "Файл обязателен.")
+            Notification.objects.create(
+                user=request.user,
+                message="Не выбран файл для загрузки."
+            )
+
+            # Создаем заявку
+            ticket = Ticket.objects.create(
+                subject="Ошибка при загрузке файла",
+                description="Респондент не выбрал файл для отправки данных.",
+                user=request.user,
+                support_line=1,
+                category="notification"
+            )
+
+            # Уведомляем l1
+            l1_agents = User.objects.filter(role="support", support_level=1)
+            for agent in l1_agents:
+                Notification.objects.create(
+                    user=agent,
+                    message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                )
+
+            messages.error(
+                request, "Обнаружена ошибка. Поддержка уже уведомлена."
+                )
             return redirect("upload_offline")
         if not uploaded_file.name.endswith((".json", ".csv")):
-            messages.error(request, "Неподдерживаемый формат")
+            Notification.objects.create(
+                user=request.user,
+                message="Неподдерживаемый формат файла. Ожидается .json или .csv"
+            )
+            ticket = Ticket.objects.create(
+                subject="Ошибка формата файла",
+                description="Загружен файл с недопустимым расширением.",
+                user=request.user,
+                support_line=1,
+                category="notification"
+            )
+
+            # Уведомляем l1
+            l1_agents = User.objects.filter(role="support", support_level=1)
+            for agent in l1_agents:
+                Notification.objects.create(
+                    user=agent,
+                    message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                )
+
+            messages.error(
+                request, "Обнаружена ошибка. Поддержка уже уведомлена.")
             return redirect("upload_offline")
+        
         submission = DataSubmission.objects.create(
-            user=request.user, channel=3, file_upload=uploaded_file, status="pending"
+            user=request.user,
+            channel=3,
+            file_upload=uploaded_file,
+            status="pending"
         )
+
         if uploaded_file.name.endswith(".json"):
             try:
                 data = json.load(uploaded_file)
                 submission.data = data
-            except (ValueError, TypeError):
-                messages.warning(request, "Файл загружен, но содержит ошибки формата.")
+                if "student_id" not in data:
+                    raise ValueError(
+                        "Обязательное поле 'student_id' отсутствует.")
+                submission.status = "accepted"
+            except (ValueError, TypeError, json.JSONDecodeError) as e:
+                error_msg = str(e) if str(e) else "Неверный формат JSON"
+                Notification.objects.create(
+                    user=request.user,
+                    message=f"Ошибка в файле: {error_msg}"
+                )
+
+                ticket = Ticket.objects.create(
+                    subject="Ошибка в содержимом файла",
+                    description=f"При загрузке файла возникла ошибка: {error_msg}",
+                    user=request.user,
+                    support_line=1,
+                    category="notification"
+                )
+
+                l1_agents = User.objects.filter(role="support", support_level=1)
+                for agent in l1_agents:
+                    Notification.objects.create(
+                        user=agent,
+                        message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                    )
+
                 submission.status = "rejected"
-                submission.validation_errors = {"format": "Неверный JSON"}
+                submission.validation_errors = {"content": error_msg}
         submission.save()
         messages.success(request, "Файл успешно загружен!")
         return redirect("dashboard")
@@ -260,4 +357,7 @@ def notifications(request):
         "-created_at"
     )
     notifications.update(is_read=True)
-    return render(request, "notifications.html", {"notifications": notifications})
+    return render(
+        request,
+        "notifications.html", {"notifications": notifications}
+        )
