@@ -94,42 +94,42 @@ def submit_data(request):
 @role_required(["admin"])
 def admin_dashboard(request):
     """Страница админа"""
-    submissions = DataSubmission.objects.select_related('user').order_by('-submitted_at')
-    channel = request.GET.get('channel')
-    status = request.GET.get('status')
+    submissions = DataSubmission.objects.select_related("user").order_by("-submitted_at")
+    channel = request.GET.get("channel")
+    status = request.GET.get("status")
     if channel:
         submissions = submissions.filter(channel=channel)
     if status:
         submissions = submissions.filter(status=status)
-    stats_raw = DataSubmission.objects.values('channel').annotate(total=Count('id'))
+    stats_raw = DataSubmission.objects.values("channel").annotate(total=Count("id"))
     stats = []
     channel_labels = {1: "API", 2: "Онлайн", 3: "Оффлайн"}
     for item in stats_raw:
-        ch = item['channel']
-        total = item['total']
+        ch = item["channel"]
+        total = item["total"]
         word = pluralize_word(total, ("запись", "записи", "записей"))
         stats.append({
-            'channel': ch,
-            'channel_label': channel_labels.get(ch, f"Канал {ch}"),
-            'total': total,
-            'word': word
+            "channel": ch,
+            "channel_label": channel_labels.get(ch, f"Канал {ch}"),
+            "total": total,
+            "word": word
         })
     for ch in [1, 2, 3]:
         if not any(s['channel'] == ch for s in stats):
             stats.append({
-                'channel': ch,
-                'channel_label': channel_labels[ch],
-                'total': 0,
-                'word': pluralize_word(0, ("запись", "записи", "записей"))  # → "записей"
+                "channel": ch,
+                "channel_label": channel_labels[ch],
+                "total": 0,
+                "word": pluralize_word(0, ("запись", "записи", "записей"))  # → "записей"
             })
 
     stats.sort(key=lambda x: x['channel'])
 
-    return render(request, 'admin_dashboard.html', {
-        'submissions': submissions,
-        'stats': stats,
-        'current_channel': channel,
-        'current_status': status,
+    return render(request, "admin_dashboard.html", {
+        "submissions": submissions,
+        "stats": stats,
+        "current_channel": channel,
+        "current_status": status,
     })
 
 
@@ -395,3 +395,19 @@ def notifications(request):
         request,
         "notifications.html", {"notifications": notifications}
         )
+
+
+@role_required(["support"])
+def ticket_add_comment(request, ticket_id):
+    """Ответ пользователю."""
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if request.method == "POST":
+        comment = request.POST.get('comment', '').strip()
+        if comment:
+            Notification.objects.create(
+                user=ticket.user,
+                message=f"Ответ от поддержки по заявке «{ticket.subject}»: {comment}"
+            )
+            messages.success(request, "Ответ отправлен пользователю.")
+        return redirect("ticket_detail", ticket_id)
+    return redirect("ricket_detail", ticket_id)

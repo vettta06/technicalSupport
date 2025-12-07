@@ -24,6 +24,20 @@
       <h5>Описание:</h5>
       <p>{{ ticket.description }}</p>
 
+      {% if user.role == 'support' %}
+        <div class="mt-4 p-3 bg-light rounded">
+          <h5>Ответить пользователю</h5>
+          <form method="post" action="{% url 'ticket_add_comment' ticket.id %}">
+            {% csrf_token %}
+            <div class="mb-2">
+              <textarea name="comment" class="form-control" rows="3" 
+                placeholder="Напишите ответ респонденту..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить ответ</button>
+          </form>
+        </div>
+      {% endif %}
+
       <hr />
       <h5>История изменений:</h5>
       <p>*(пока не реализовано)*</p>
@@ -42,6 +56,7 @@
               <button type="submit" class="btn btn-success">Проблема решена</button>
             </form>
           {% endif %}
+
         {% endif %}
         <a href="{% url 'ticket_list' %}" class="btn btn-secondary ms-2">Назад к списку</a>
       </div>

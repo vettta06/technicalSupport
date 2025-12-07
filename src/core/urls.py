@@ -14,10 +14,15 @@ urlpatterns = [
         name="ticket_escalate",
     ),
     path(
-        "tickets/<int:ticket_id>/resolve/", views.ticket_resolve, name="ticket_resolve"
+        "tickets/<int:ticket_id>/resolve/", views.ticket_resolve,
+        name="ticket_resolve"
     ),
     path("api/data/", views.api_data_submission, name="api_data_submission"),
     path("submit-data/", views.submit_data, name="submit_data"),
     path("upload-offline/", views.upload_offline, name="upload_offline"),
     path("notifications/", views.notifications, name="notifications"),
+    path('tickets/<int:ticket_id>/comment/',
+         views.ticket_add_comment,
+         name="ticket_add_comment"
+    ),
 ]
