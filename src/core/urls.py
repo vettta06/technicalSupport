@@ -7,7 +7,10 @@ urlpatterns = [
     path("provider/", views.provider_dashboard, name="provider"),
     path("tickets/create/", views.ticket_create, name="ticket_create"),
     path("tickets/", views.ticket_list, name="ticket_list"),
-    path("tickets/<int:ticket_id>/", views.ticket_detail, name="ticket_detail"),
+    path("tickets/<int:ticket_id>/",
+         views.ticket_detail,
+         name="ticket_detail"
+         ),
     path(
         "tickets/<int:ticket_id>/escalate/",
         views.ticket_escalate,
@@ -24,5 +27,5 @@ urlpatterns = [
     path('tickets/<int:ticket_id>/comment/',
          views.ticket_add_comment,
          name="ticket_add_comment"
-    ),
+         ),
 ]

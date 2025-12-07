@@ -64,7 +64,8 @@ def submit_data(request):
             )
             ticket = Ticket.objects.create(
                 subject="Ошибка при отправке данных",
-                description="Отсутствует обязательное поле 'student_id' в отправленных данных.",
+                description="Отсутствует обязательное поле 'student_id'"
+                " в отправленных данных.",
                 user=request.user,
                 support_line=1,
                 category="notification"
@@ -74,9 +75,14 @@ def submit_data(request):
             for agent in l1_agents:
                 Notification.objects.create(
                     user=agent,
-                    message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                    message=(
+                        f"Новая заявка от {request.user.username}: "
+                        f"{ticket.subject}"
+                    )
                 )
-            messages.error(request, "Обнаружена ошибка, мы уже передали её в поддержку.")
+            messages.error(request,
+                           "Обнаружена ошибка, мы уже передали её в поддержку."
+                           )
             return redirect("notifications")
 
         DataSubmission.objects.create(
@@ -94,14 +100,18 @@ def submit_data(request):
 @role_required(["admin"])
 def admin_dashboard(request):
     """Страница админа"""
-    submissions = DataSubmission.objects.select_related("user").order_by("-submitted_at")
+    submissions = (
+        DataSubmission.objects.select_related("user").order_by("-submitted_at")
+    )
     channel = request.GET.get("channel")
     status = request.GET.get("status")
     if channel:
         submissions = submissions.filter(channel=channel)
     if status:
         submissions = submissions.filter(status=status)
-    stats_raw = DataSubmission.objects.values("channel").annotate(total=Count("id"))
+    stats_raw = (
+        DataSubmission.objects.values("channel").annotate(total=Count("id"))
+    )
     stats = []
     channel_labels = {1: "API", 2: "Онлайн", 3: "Оффлайн"}
     for item in stats_raw:
@@ -120,7 +130,7 @@ def admin_dashboard(request):
                 "channel": ch,
                 "channel_label": channel_labels[ch],
                 "total": 0,
-                "word": pluralize_word(0, ("запись", "записи", "записей"))  # → "записей"
+                "word": pluralize_word(0, ("запись", "записи", "записей"))
             })
 
     stats.sort(key=lambda x: x['channel'])
@@ -182,8 +192,7 @@ def ticket_list(request):
         ).order_by("-created_at")
     elif request.user.support_level == 2:
         tickets = Ticket.objects.filter(
-            support_line=2, status="escalated").order_by("-created_at"
-        )
+            support_line=2, status="escalated").order_by("-created_at")
     elif request.user.support_level == 3:
         tickets = Ticket.objects.filter(
             models.Q(support_line=3)
@@ -233,7 +242,11 @@ def ticket_resolve(request, ticket_id):
         return redirect("ticket_detail", ticket_id)
     ticket = get_object_or_404(Ticket, id=ticket_id)
     user = request.user
-    if user.support_level == 1 and ticket.support_line == 1 and ticket.status == "open":
+    if (
+        user.support_level == 1
+        and ticket.support_line == 1
+        and ticket.status == "open"
+    ):
         ticket.status = "resolved"
         ticket.save()
     elif (
@@ -307,7 +320,10 @@ def upload_offline(request):
             for agent in l1_agents:
                 Notification.objects.create(
                     user=agent,
-                    message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                    message=(
+                        f"Новая заявка от {request.user.username}: "
+                        f"{ticket.subject}"
+                    )
                 )
 
             messages.error(
@@ -317,7 +333,9 @@ def upload_offline(request):
         if not uploaded_file.name.endswith((".json", ".csv")):
             Notification.objects.create(
                 user=request.user,
-                message="Неподдерживаемый формат файла. Ожидается .json или .csv"
+                message=(
+                    "Неподдерживаемый формат файла. Ожидается .json или .csv"
+                )
             )
             ticket = Ticket.objects.create(
                 subject="Ошибка формата файла",
@@ -332,13 +350,14 @@ def upload_offline(request):
             for agent in l1_agents:
                 Notification.objects.create(
                     user=agent,
-                    message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                    message=f"Новая заявка от {request.user.username}: "
+                    f"{ticket.subject}"
                 )
 
             messages.error(
                 request, "Обнаружена ошибка. Поддержка уже уведомлена.")
             return redirect("upload_offline")
-        
+
         submission = DataSubmission.objects.create(
             user=request.user,
             channel=3,
@@ -363,17 +382,24 @@ def upload_offline(request):
 
                 ticket = Ticket.objects.create(
                     subject="Ошибка в содержимом файла",
-                    description=f"При загрузке файла возникла ошибка: {error_msg}",
+                    description=(
+                        f"При загрузке файла возникла ошибка: {error_msg}"
+                    ),
                     user=request.user,
                     support_line=1,
                     category="notification"
                 )
 
-                l1_agents = User.objects.filter(role="support", support_level=1)
+                l1_agents = (
+                    User.objects.filter(role="support", support_level=1)
+                )
                 for agent in l1_agents:
                     Notification.objects.create(
                         user=agent,
-                        message=f"Новая заявка от {request.user.username}: {ticket.subject}"
+                        message=(
+                            f"Новая заявка от {request.user.username}: "
+                            f"{ticket.subject}"
+                        )
                     )
 
                 submission.status = "rejected"
@@ -406,7 +432,10 @@ def ticket_add_comment(request, ticket_id):
         if comment:
             Notification.objects.create(
                 user=ticket.user,
-                message=f"Ответ от поддержки по заявке «{ticket.subject}»: {comment}"
+                message=(
+                    f"Ответ от поддержки по заявке «{ticket.subject}»: "
+                    f"{comment}"
+                )
             )
             messages.success(request, "Ответ отправлен пользователю.")
         return redirect("ticket_detail", ticket_id)

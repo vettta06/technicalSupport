@@ -15,7 +15,7 @@
     <form method="post">
       {% csrf_token %}
       <div class="mb-3">
-        <textarea name="data_json" class="form-control" rows="8" placeholder='{"ключ": "значение"}' required></textarea>
+        <textarea name="data_json" class="form-control" rows="8" placeholder="{'ключ': 'значение'}" required></textarea>
       </div>
       <button type="submit" class="btn-create-ticket">Отправить данные</button>
       <a href="{% url 'dashboard' %}" class="btn-logout" style="display:inline-block; margin-left:10px;">Назад</a>
